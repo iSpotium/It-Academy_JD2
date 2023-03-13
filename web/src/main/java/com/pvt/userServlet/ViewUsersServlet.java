@@ -1,7 +1,9 @@
 package com.pvt.userServlet;
 
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.User;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.daoImpl.UserDAOImpl;
+import com.pvt.dao.entity.User;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,19 +18,24 @@ import java.util.List;
 
 @WebServlet(name = "ViewUsersServlet", urlPatterns = {"/viewUsers"})
 public class ViewUsersServlet extends HttpServlet {
-    private static UserDAOImpl userDAO = new UserDAOImpl();
+    private static UserServiceImpl userService = UserServiceImpl.getInstance();
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text.html");
         HttpSession session = request.getSession();
 
         User adminUser;
         Long userIdToRemove = (Long) session.getAttribute("loggedInUserId");
 
-        adminUser = userDAO.get(userIdToRemove);
+        try {
+            adminUser = userService.get(userIdToRemove);
+        } catch (LogDAOException e) {
+            throw new RuntimeException(e);
+        }
+
         List<User> usersList;
 
-        usersList = userDAO.getAllUsers();
+        usersList = userService.getAllUsers();
 
         Iterator<User> userIterator = usersList.iterator();
         while (userIterator.hasNext()){

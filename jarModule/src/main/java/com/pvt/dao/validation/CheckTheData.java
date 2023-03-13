@@ -1,6 +1,6 @@
-package com.pvt.validation;
+package com.pvt.dao.validation;
 
-import com.pvt.daoException.LogDAOException;
+import com.pvt.dao.daoException.LogDAOException;
 
 import java.sql.SQLException;
 

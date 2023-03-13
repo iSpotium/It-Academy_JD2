@@ -1,17 +1,31 @@
-package com.pvt.daoImpl;
+package com.pvt.dao.daoImpl;
 
-import com.pvt.dao.AbstractJPADAO;
-import com.pvt.daoInterface.UserDAO;
-import com.pvt.entity.Role;
-import com.pvt.entity.User;
+import com.pvt.dao.daoFactory.DAOFactory;
+import com.pvt.dao.daoUtils.AbstractJPADAO;
+import com.pvt.dao.daoInterface.UserDAO;
+import com.pvt.dao.entity.Role;
+import com.pvt.dao.entity.User;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
-import static com.pvt.constants.UserConstants.*;
+import static com.pvt.dao.constants.UserConstants.*;
 
 public class UserDAOImpl extends AbstractJPADAO implements UserDAO {
+
+    private static UserDAOImpl instance;
+
+    private UserDAOImpl(){
+
+    }
+    public static UserDAOImpl getInstance(){
+        if(instance == null){
+            instance = new UserDAOImpl();
+        }
+        return instance;
+    }
 
 
     @Override
@@ -23,18 +37,18 @@ public class UserDAOImpl extends AbstractJPADAO implements UserDAO {
     }
 
     @Override
-    public void delete(long userId) {
+    public void delete(long id) {
         init();
-        User user = em.getReference(User.class, userId);
+        User user = em.getReference(User.class, id);
         em.remove(user);
         close();
 
     }
 
     @Override
-    public User get(long userId) {
+    public User get(long id) {
         init();
-        User user = em.find(User.class, userId);
+        User user = em.find(User.class, id);
         close();
 
         return user;

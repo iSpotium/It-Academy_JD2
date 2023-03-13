@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/updateData", "/updateEmail", "/updateName", "/updatePassword", "/viewUsers", "/welcome", "/adminUpdateName", "/adminUpdatePassword", "/adminDeleteUser", "/viewMyData"})
+@WebFilter(urlPatterns = {"/updateData", "/updateEmail", "/updateName", "/updatePassword", "/viewUsers", "/welcome", "/adminUpdateName", "/adminUpdatePassword", "/adminDeleteUser", "/viewMyData", "/changePost", "/addPost", "/deletePost", "/viewPosts"})
 public class CheckSessionFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,7 +22,7 @@ public class CheckSessionFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String contextPath = req.getContextPath();
         HttpSession session = req.getSession();
-        if((session!=null) && (session.getAttribute("loggedInUserId")!=null)) {
+        if ((session != null) && (session.getAttribute("loggedInUserId") != null)) {
             chain.doFilter(request, response);
         } else {
             res.sendRedirect(contextPath + "/index.jsp");

@@ -1,14 +1,17 @@
-package com.pvt.dao;
+package com.pvt.dao.daoUtils;
 
-import com.pvt.entity.User;
+import com.pvt.dao.entity.User;
 
 public class DAOLogic {
-    private static final DAOLogic instance = new DAOLogic();
+    private static DAOLogic instance;
 
     private DAOLogic() {
     }
 
     public static DAOLogic getInstance() {
+        if(instance == null){
+            instance = new DAOLogic();
+        }
         return instance;
     }
 

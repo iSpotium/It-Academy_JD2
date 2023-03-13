@@ -1,9 +1,10 @@
 package com.pvt.adminServlet;
 
-import com.pvt.daoException.LogDAOException;
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.User;
-import com.pvt.validation.UserValidation;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.daoImpl.UserDAOImpl;
+import com.pvt.dao.entity.User;
+import com.pvt.dao.validation.UserValidation;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,16 +19,13 @@ import java.sql.SQLException;
 
 @WebServlet(name = "AdminUpdateNameServlet", urlPatterns = {"/adminUpdateName"})
 public class AdminUpdateNameServlet extends HttpServlet {
-    private static UserDAOImpl userDAO = new UserDAOImpl();
+    private static UserServiceImpl userService = UserServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         long savedUserId = Long.parseLong(request.getParameter("saveUserId"));
-        User updateUser = userDAO.get(savedUserId);
 
-        if (updateUser != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("updateUserId", savedUserId);
-        }
+        HttpSession session = request.getSession();
+        session.setAttribute("updateUserId", savedUserId);
 
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/adminUpdateName.jsp");
         rd.forward(request, response);
@@ -46,9 +44,9 @@ public class AdminUpdateNameServlet extends HttpServlet {
         try {
             if (UserValidation.isHaveUserWithUserName(newUserName) == false) {
                 if (session != null) {
-                    linkUser = userDAO.get(userIdToFind);
+                    linkUser = userService.get(userIdToFind);
                     linkUser.setUserName(newUserName);
-                    userDAO.changeData(linkUser);
+                    userService.changeData(linkUser);
                     PrintWriter out = response.getWriter();
                     RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/changeData.jsp");
                     rd.include(request, response);

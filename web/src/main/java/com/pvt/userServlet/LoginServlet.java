@@ -1,7 +1,8 @@
 package com.pvt.userServlet;
 
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.User;
+import com.pvt.dao.daoImpl.UserDAOImpl;
+import com.pvt.dao.entity.User;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +17,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
-    private static UserDAOImpl userDAO = new UserDAOImpl();
+    private static UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
     protected  void  doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -36,8 +37,8 @@ public class LoginServlet extends HttpServlet {
 
         User loginUser;
 
-        if (userDAO.getUserByName(userName) != null){
-            loginUser = userDAO.getUserByName((userName));
+        if (userService.getUserByName(userName) != null){
+            loginUser = userService.getUserByName((userName));
             if (loginUser.getUserPassword().equals(userPassword)){
                 if(session != null){
                     session.setAttribute("loggedInUserId", loginUser.getUserId());

@@ -1,9 +1,9 @@
 package com.pvt.userServlet;
 
-import com.pvt.dao.DAOLogic;
-import com.pvt.daoException.LogDAOException;
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.validation.CheckTheData;
+import com.pvt.dao.daoUtils.DAOLogic;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.validation.CheckTheData;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 @WebServlet(name = "RegistrationServlet", urlPatterns = {"/registration"})
 public class RegistrationServlet extends HttpServlet {
 
-    private static UserDAOImpl userDAO = new UserDAOImpl();
+    private static UserServiceImpl userService = UserServiceImpl.getInstance();
     private static DAOLogic daoLogic = DAOLogic.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class RegistrationServlet extends HttpServlet {
 
         try {
             if (CheckTheData.correctData(arrayData) == true) {
-                userDAO.add(daoLogic.firstInitializationUser(arrayData));
+                userService.add(daoLogic.firstInitializationUser(arrayData));
                 PrintWriter out = response.getWriter();
                 RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                 rd.include(request, response);

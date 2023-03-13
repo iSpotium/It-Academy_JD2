@@ -1,4 +1,4 @@
-package com.pvt.constants;
+package com.pvt.dao.constants;
 
 public class UserConstants {
 

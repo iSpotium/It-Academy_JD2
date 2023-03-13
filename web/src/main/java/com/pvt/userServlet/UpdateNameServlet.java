@@ -1,9 +1,9 @@
 package com.pvt.userServlet;
 
-import com.pvt.daoException.LogDAOException;
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.User;
-import com.pvt.validation.UserValidation;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.daoImpl.UserDAOImpl;
+import com.pvt.dao.entity.User;
+import com.pvt.dao.validation.UserValidation;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @WebServlet(name = "UpdateNameServlet", urlPatterns = {"/updateName"})
 public class UpdateNameServlet extends HttpServlet {
 
-    private static UserDAOImpl userDAO = new UserDAOImpl();
+    private static UserDAOImpl userDAO = UserDAOImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/updateName.jsp");

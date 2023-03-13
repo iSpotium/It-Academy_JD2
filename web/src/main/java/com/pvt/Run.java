@@ -1,22 +1,27 @@
 package com.pvt;
 
-import com.pvt.dao.DAOLogic;
-import com.pvt.daoException.LogDAOException;
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.Role;
-import com.pvt.entity.User;
-import com.pvt.validation.CheckTheData;
-import com.pvt.validation.UserValidation;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.daoUtils.DAOLogic;
+import com.pvt.dao.entity.Post;
+import com.pvt.dao.entity.Role;
+import com.pvt.dao.entity.User;
+import com.pvt.service.serviceImpl.PostServiceImpl;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
+
 
 public class Run {
     public static void main(String[] args) throws LogDAOException, SQLException {
 
+        UserServiceImpl userService = UserServiceImpl.getInstance();
+        PostServiceImpl postService = PostServiceImpl.getInstance();
         DAOLogic daoLogic = DAOLogic.getInstance();
-        UserDAOImpl userDAO = new UserDAOImpl();
+
+        User user = userService.get(1);
+        user.setUserRole(Role.ADMIN);
+        userService.changeData(user);
+
 
     }
 }

@@ -1,4 +1,4 @@
-package com.pvt.dao;
+package com.pvt.dao.daoUtils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

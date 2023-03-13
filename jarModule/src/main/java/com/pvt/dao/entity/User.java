@@ -1,4 +1,4 @@
-package com.pvt.entity;
+package com.pvt.dao.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -37,6 +39,9 @@ public class User implements Serializable {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "userRole", nullable = false)
     private Role userRole;
+
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.ALL})
+    private Set<Post> posts = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
