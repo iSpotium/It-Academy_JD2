@@ -26,7 +26,7 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long postId;
 
-    @Column(name = "postName", nullable = false, unique = true)
+    @Column(name = "postName", nullable = false, unique = false)
     private String postName;
 
     @Column(name = "postText", nullable = false)

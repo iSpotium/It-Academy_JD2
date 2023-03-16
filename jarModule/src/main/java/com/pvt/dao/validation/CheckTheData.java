@@ -5,45 +5,40 @@ import com.pvt.dao.daoException.LogDAOException;
 import java.sql.SQLException;
 
 public class CheckTheData {
-    public static boolean correctData(String[] data) throws LogDAOException, SQLException {
+    public static boolean isTheDataCorrect(String[] data) throws LogDAOException, SQLException {
 
-        Boolean[] saveFlags = new Boolean[3];
+        Boolean[] validationStatuses = new Boolean[3];
 
         if (UserValidation.isHaveUserWithUserName(data[0]) != true) {
-            saveFlags[0] = true;
+            validationStatuses[0] = true;
         } else {
-            saveFlags[0] = false;
+            validationStatuses[0] = false;
         }
         if (UserValidation.isPasswordCorrect(data[1]) == true) {
-            saveFlags[1] = true;
+            validationStatuses[1] = true;
         } else {
-            saveFlags[1] = false;
+            validationStatuses[1] = false;
         }
         if (UserValidation.isHaveUserWithUserEmail(data[2]) != true) {
-            saveFlags[2] = true;
+            validationStatuses[2] = true;
         } else {
-            saveFlags[2] = false;
+            validationStatuses[2] = false;
         }
 
 
-        if (CheckTheData.indicator(saveFlags) != false){
-            return true;
-        }
-            return false;
+        return CheckTheData.isFinalStatusCorrect(validationStatuses);
     }
 
 
-    public static Boolean indicator(Boolean[] flags) {
-        boolean indicator = false;
+    public static Boolean isFinalStatusCorrect(Boolean[] validationStatuses) {
+        boolean finalStatus = true;
 
-        for (Boolean i : flags) {
-            if (i != false) {
-                indicator = true;
-            } else {
-                indicator = false;
+        for (Boolean s : validationStatuses) {
+            if (s == false) {
+                finalStatus = false;
                 break;
             }
         }
-        return indicator;
+        return finalStatus;
     }
 }

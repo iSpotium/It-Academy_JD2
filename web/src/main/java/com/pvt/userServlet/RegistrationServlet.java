@@ -39,7 +39,7 @@ public class RegistrationServlet extends HttpServlet {
         String[] arrayData = daoLogic.splitString(dataLine);
 
         try {
-            if (CheckTheData.correctData(arrayData) == true) {
+            if (CheckTheData.isTheDataCorrect(arrayData) == true) {
                 userService.add(daoLogic.firstInitializationUser(arrayData));
                 PrintWriter out = response.getWriter();
                 RequestDispatcher rd = request.getRequestDispatcher("index.jsp");

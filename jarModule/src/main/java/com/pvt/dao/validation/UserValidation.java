@@ -2,6 +2,7 @@ package com.pvt.dao.validation;
 
 import com.pvt.dao.daoException.LogDAOException;
 import com.pvt.dao.daoImpl.UserDAOImpl;
+import com.pvt.dao.daoInterface.UserDAO;
 import com.pvt.dao.entity.Role;
 import com.pvt.dao.entity.User;
 
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 
 public class UserValidation {
 
-    static UserDAOImpl userDAO = UserDAOImpl.getInstance();
+    static UserDAO<User> userDAO = UserDAOImpl.getInstance();
 
     public static boolean isHaveUserWithUserName(String userName) throws LogDAOException, SQLException {
         if (userDAO.getUserByName(userName) == null) {
