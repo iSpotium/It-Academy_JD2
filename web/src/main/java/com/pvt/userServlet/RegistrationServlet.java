@@ -2,7 +2,9 @@ package com.pvt.userServlet;
 
 import com.pvt.dao.daoUtils.DAOLogic;
 import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.entity.User;
 import com.pvt.dao.validation.CheckTheData;
+import com.pvt.service.serviceInterface.UserService;
 import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -18,8 +20,8 @@ import java.sql.SQLException;
 @WebServlet(name = "RegistrationServlet", urlPatterns = {"/registration"})
 public class RegistrationServlet extends HttpServlet {
 
-    private static UserServiceImpl userService = UserServiceImpl.getInstance();
-    private static DAOLogic daoLogic = DAOLogic.getInstance();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
+    private final DAOLogic daoLogic = DAOLogic.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/registration.jsp");

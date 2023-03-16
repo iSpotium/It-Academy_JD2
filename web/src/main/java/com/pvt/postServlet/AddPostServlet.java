@@ -4,6 +4,8 @@ package com.pvt.postServlet;
 import com.pvt.dao.daoException.LogDAOException;
 import com.pvt.dao.entity.Post;
 import com.pvt.dao.entity.User;
+import com.pvt.service.serviceInterface.PostService;
+import com.pvt.service.serviceInterface.UserService;
 import com.pvt.service.serviceImpl.PostServiceImpl;
 import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
@@ -20,8 +22,8 @@ import java.io.PrintWriter;
 @WebServlet(name = "AddPostServlet", urlPatterns = {"/addPost"})
 public class AddPostServlet extends HttpServlet {
 
-    private static UserServiceImpl userService = UserServiceImpl.getInstance();
-    private static PostServiceImpl postService = PostServiceImpl.getInstance();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
+    private final PostService<Post> postService = PostServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/addPost.jsp");

@@ -2,6 +2,8 @@ package com.pvt.adminServlet;
 
 import com.pvt.dao.daoException.LogDAOException;
 
+import com.pvt.dao.entity.User;
+import com.pvt.service.serviceInterface.UserService;
 import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -17,7 +19,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "AdminDeleteUserServlet", urlPatterns = {"/adminDeleteUser"})
 public class AdminDeleteUserServlet extends HttpServlet{
 
-    private static UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         long userIdToDelete = Long.parseLong(request.getParameter("saveUserId"));

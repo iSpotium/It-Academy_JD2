@@ -1,8 +1,8 @@
 package com.pvt.userServlet;
 
 import com.pvt.dao.daoException.LogDAOException;
-import com.pvt.dao.daoImpl.UserDAOImpl;
 import com.pvt.dao.entity.User;
+import com.pvt.service.serviceInterface.UserService;
 import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ViewMyDataServlet", urlPatterns = {"/viewMyData"})
 public class ViewMyDataServlet extends HttpServlet {
-    private static UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text.html");

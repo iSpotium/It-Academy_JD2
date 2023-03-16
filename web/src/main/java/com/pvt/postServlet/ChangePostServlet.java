@@ -2,6 +2,7 @@ package com.pvt.postServlet;
 
 import com.pvt.dao.daoException.LogDAOException;
 import com.pvt.dao.entity.Post;
+import com.pvt.service.serviceInterface.PostService;
 import com.pvt.service.serviceImpl.PostServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "ChangePostServlet", urlPatterns = {"/changePost"})
 public class ChangePostServlet extends HttpServlet {
 
-    private static PostServiceImpl postService = PostServiceImpl.getInstance();
+    private final PostService<Post> postService = PostServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         long savedPostId = Long.parseLong(request.getParameter("savePostId"));

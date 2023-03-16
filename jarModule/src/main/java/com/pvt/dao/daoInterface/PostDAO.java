@@ -6,7 +6,7 @@ import com.pvt.dao.entity.Post;
 import java.sql.SQLException;
 import java.util.Set;
 
-public interface PostDAO extends DAO<Post> {
+public interface PostDAO<T> extends DAO<T> {
     Post getPostByName(String postName) throws LogDAOException, SQLException;
     Set<Post> getAllPosts ();
     Set<Post> getPostsByUserId(long userId) throws LogDAOException, SQLException;

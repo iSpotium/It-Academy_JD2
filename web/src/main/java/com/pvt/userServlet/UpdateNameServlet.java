@@ -1,9 +1,10 @@
 package com.pvt.userServlet;
 
 import com.pvt.dao.daoException.LogDAOException;
-import com.pvt.dao.daoImpl.UserDAOImpl;
 import com.pvt.dao.entity.User;
 import com.pvt.dao.validation.UserValidation;
+import com.pvt.service.serviceInterface.UserService;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 @WebServlet(name = "UpdateNameServlet", urlPatterns = {"/updateName"})
 public class UpdateNameServlet extends HttpServlet {
 
-    private static UserDAOImpl userDAO = UserDAOImpl.getInstance();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/updateName.jsp");
@@ -38,14 +39,14 @@ public class UpdateNameServlet extends HttpServlet {
         User linkUser;
         Long userIdToFind = (Long) session.getAttribute("loggedInUserId");
 
-        linkUser = userDAO.get(userIdToFind);
-
 
         try {
+            linkUser = userService.get(userIdToFind);
+
             if (UserValidation.isHaveUserWithUserName(newUserName) == false && linkUser.getUserPassword().equals(acceptPassword)) {
                 if (session != null) {
                     linkUser.setUserName(newUserName);
-                    userDAO.changeData(linkUser);
+                    userService.changeData(linkUser);
                     session.setAttribute("loggedInUserName", newUserName);
                     PrintWriter out = response.getWriter();
                     RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/welcome.jsp");

@@ -1,19 +1,17 @@
 package com.pvt.service.serviceImpl;
 
+import com.pvt.dao.daoInterface.UserDAO;
 import com.pvt.dao.daoException.LogDAOException;
-import com.pvt.dao.daoFactory.DAOFactory;
-import com.pvt.dao.daoFactory.ObjectTypes;
 import com.pvt.dao.daoImpl.UserDAOImpl;
-import com.pvt.dao.daoInterface.DAO;
 import com.pvt.dao.entity.User;
 import com.pvt.service.serviceInterface.UserService;
 
+import java.sql.SQLException;
 import java.util.List;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl<T> implements UserService<T> {
 
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private DAO crudDAO = daoFactory.getDAO(ObjectTypes.USER);
+    private final UserDAO<User> dao = UserDAOImpl.getInstance();
 
     private static UserServiceImpl instance;
 
@@ -22,50 +20,47 @@ public class UserServiceImpl implements UserService {
     }
     public static UserServiceImpl getInstance(){
         if(instance == null){
-            instance = new UserServiceImpl();
+            instance = new UserServiceImpl<>();
         }
         return instance;
     }
 
     @Override
-    public void add(User user) throws LogDAOException {
-        crudDAO.add(user);
+    public void add(T user) throws LogDAOException {
+        dao.add((User) user);
     }
+
 
     @Override
     public void delete(long id) throws LogDAOException {
-        crudDAO.delete(id);
+        dao.delete(id);
     }
 
     @Override
-    public User get(long id) throws LogDAOException {
-        User user = (User) crudDAO.get(id);
+    public T get(long id) throws LogDAOException {
+        T user = (T) dao.get(id);
         return user;
     }
 
+
     @Override
-    public void changeData(User user) {
-        crudDAO.changeData(user);
+    public void changeData(T user) {
+        dao.changeData((User) user);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        UserDAOImpl userDAO = UserDAOImpl.getInstance();
-
-        return userDAO.getAllUsers();
+    public List<User> getAllUsers() throws LogDAOException, SQLException {
+        return dao.getAllUsers();
     }
 
     @Override
-    public User getUserByEmail(String userEmail)  {
-        UserDAOImpl userDAO = UserDAOImpl.getInstance();
-
-        return userDAO.getUserByEmail(userEmail);
+    public User getUserByEmail(String userEmail) throws LogDAOException, SQLException {
+        return dao.getUserByEmail(userEmail);
     }
 
     @Override
-    public User getUserByName(String userName) {
-        UserDAOImpl userDAO = UserDAOImpl.getInstance();
+    public User getUserByName(String userName) throws LogDAOException, SQLException {
 
-        return userDAO.getUserByName(userName);
+        return dao.getUserByName(userName);
     }
 }

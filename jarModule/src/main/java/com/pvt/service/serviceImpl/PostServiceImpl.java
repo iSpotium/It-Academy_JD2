@@ -1,19 +1,17 @@
 package com.pvt.service.serviceImpl;
 
+import com.pvt.dao.daoInterface.PostDAO;
 import com.pvt.dao.daoException.LogDAOException;
-import com.pvt.dao.daoFactory.DAOFactory;
-import com.pvt.dao.daoFactory.ObjectTypes;
 import com.pvt.dao.daoImpl.PostDAOImpl;
-import com.pvt.dao.daoInterface.DAO;
 import com.pvt.dao.entity.Post;
 import com.pvt.service.serviceInterface.PostService;
 
+import java.sql.SQLException;
 import java.util.Set;
 
-public class PostServiceImpl implements PostService {
+public class PostServiceImpl<T> implements PostService<T> {
 
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-    private DAO crudDAO = daoFactory.getDAO(ObjectTypes.POST);
+    private final PostDAO<Post> dao = PostDAOImpl.getInstance();
 
     private static PostServiceImpl instance;
 
@@ -22,23 +20,21 @@ public class PostServiceImpl implements PostService {
     }
     public static PostServiceImpl getInstance(){
         if(instance == null){
-            instance = new PostServiceImpl();
+            instance = new PostServiceImpl<>();
         }
         return instance;
     }
 
     @Override
-    public Post getPostByName(String postName) {
-        PostDAOImpl postDAO = PostDAOImpl.getInstance();
+    public Post getPostByName(String postName) throws LogDAOException, SQLException {
 
-        return postDAO.getPostByName(postName);
+        return dao.getPostByName(postName);
     }
 
     @Override
     public Set<Post> getAllPosts() {
-        PostDAOImpl postDAO = PostDAOImpl.getInstance();
 
-        return postDAO.getAllPosts();
+        return dao.getAllPosts();
     }
 
     @Override
@@ -49,22 +45,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void add(Post post) throws LogDAOException {
-        crudDAO.add(post);
+    public void add(T post) throws LogDAOException {
+        dao.add((Post) post);
     }
+
 
     @Override
     public void delete(long id) throws LogDAOException {
-        crudDAO.delete(id);
+        dao.delete(id);
     }
 
     @Override
-    public Post get(long id) throws LogDAOException {
-        return (Post) crudDAO.get(id);
+    public T get(long id) throws LogDAOException {
+        T post = (T) dao.get(id);
+        return post;
     }
 
     @Override
-    public void changeData(Post post) {
-        crudDAO.changeData(post);
+    public void changeData(T post) {
+        dao.changeData((Post) post);
     }
 }

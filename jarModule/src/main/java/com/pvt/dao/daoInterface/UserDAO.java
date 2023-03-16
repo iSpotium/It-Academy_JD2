@@ -6,7 +6,7 @@ import com.pvt.dao.entity.User;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface UserDAO extends DAO<User> {
+public interface UserDAO<T> extends DAO<T> {
 
     User getUserByEmail(String userEmail) throws LogDAOException, SQLException;
     User getUserByName(String userName) throws LogDAOException, SQLException;

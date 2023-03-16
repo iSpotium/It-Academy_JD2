@@ -1,5 +1,6 @@
 package com.pvt.dao.daoImpl;
 
+import com.pvt.dao.daoException.LogDAOException;
 import com.pvt.dao.daoUtils.AbstractJPADAO;
 import com.pvt.dao.daoInterface.PostDAO;
 import com.pvt.dao.entity.Post;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 import static com.pvt.dao.constants.PostConstants.*;
 
-public class PostDAOImpl extends AbstractJPADAO implements PostDAO {
+public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
 
     private static PostDAOImpl instance;
 
@@ -21,15 +22,18 @@ public class PostDAOImpl extends AbstractJPADAO implements PostDAO {
     }
     public static PostDAOImpl getInstance(){
         if(instance == null){
-            instance = new PostDAOImpl();
+            instance = new PostDAOImpl<>();
         }
         return instance;
     }
 
+
     @Override
-    public void add(Post post) {
+    public void add(T post) throws LogDAOException {
+
+        Post addPost = (Post) post;
         init();
-        em.persist(post);
+        em.persist(addPost);
         close();
     }
 
@@ -42,17 +46,17 @@ public class PostDAOImpl extends AbstractJPADAO implements PostDAO {
     }
 
     @Override
-    public Post get(long id) {
+    public T get(long id) {
 
         init();
-        Post post = em.find(Post.class, id);
+        T post = (T) em.find(Post.class, id);
         close();
 
         return post;
     }
 
     @Override
-    public void changeData(Post post) {
+    public void changeData(T post) {
 
         init();
         em.merge(post);

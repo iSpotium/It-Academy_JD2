@@ -1,9 +1,9 @@
 package com.pvt.userServlet;
 
 import com.pvt.dao.daoException.LogDAOException;
-import com.pvt.dao.daoImpl.UserDAOImpl;
 import com.pvt.dao.entity.User;
 import com.pvt.dao.validation.UserValidation;
+import com.pvt.service.serviceInterface.UserService;
 import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,7 @@ import java.sql.SQLException;
 @WebServlet(name = "UpdateEmailServlet", urlPatterns = {"/updateEmail"})
 public class UpdateEmailServlet extends HttpServlet {
 
-    private static UserServiceImpl userService = UserServiceImpl.getInstance();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

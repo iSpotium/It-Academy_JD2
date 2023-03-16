@@ -1,11 +1,10 @@
 package com.pvt.dao.daoImpl;
 
-import com.pvt.dao.daoFactory.DAOFactory;
+import com.pvt.dao.daoException.LogDAOException;
 import com.pvt.dao.daoUtils.AbstractJPADAO;
 import com.pvt.dao.daoInterface.UserDAO;
 import com.pvt.dao.entity.Role;
 import com.pvt.dao.entity.User;
-import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 import static com.pvt.dao.constants.UserConstants.*;
 
-public class UserDAOImpl extends AbstractJPADAO implements UserDAO {
+public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
 
     private static UserDAOImpl instance;
 
@@ -29,10 +28,11 @@ public class UserDAOImpl extends AbstractJPADAO implements UserDAO {
 
 
     @Override
-    public void add(User user) {
-        user.setUserRole(Role.USER);
+    public void add(T user) throws LogDAOException {
+        User addUser = (User) user;
+        addUser.setUserRole(Role.USER);
         init();
-        em.persist(user);
+        em.persist(addUser);
         close();
     }
 
@@ -46,20 +46,23 @@ public class UserDAOImpl extends AbstractJPADAO implements UserDAO {
     }
 
     @Override
-    public User get(long id) {
+    public T get(long id) {
+
         init();
-        User user = em.find(User.class, id);
+        T user = (T) em.find(User.class, id);
         close();
 
         return user;
     }
 
     @Override
-    public void changeData(User user) {
+    public void changeData(T user) {
+        User changeUser = (User) user;
         init();
-        em.merge(user);
+        em.merge(changeUser);
         close();
     }
+
 
     @Override
     public User getUserByEmail(String userEmail) {
