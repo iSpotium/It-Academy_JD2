@@ -26,15 +26,15 @@ public class CheckTheData {
         }
 
 
-        return CheckTheData.isFinalStatusCorrect(validationStatuses);
+        return CheckTheData.isAllStatusCorrect(validationStatuses);
     }
 
 
-    public static Boolean isFinalStatusCorrect(Boolean[] validationStatuses) {
+    public static Boolean isAllStatusCorrect(Boolean[] validationStatuses) {
         boolean finalStatus = true;
 
-        for (Boolean s : validationStatuses) {
-            if (s == false) {
+        for (Boolean status : validationStatuses) {
+            if (status == false) {
                 finalStatus = false;
                 break;
             }

@@ -32,15 +32,15 @@ public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
         User addUser = (User) user;
         addUser.setUserRole(Role.USER);
         init();
-        em.persist(addUser);
+        entityManager.persist(addUser);
         close();
     }
 
     @Override
     public void delete(long id) {
         init();
-        User user = em.getReference(User.class, id);
-        em.remove(user);
+        User user = entityManager.getReference(User.class, id);
+        entityManager.remove(user);
         close();
 
     }
@@ -49,7 +49,7 @@ public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
     public T get(long id) {
 
         init();
-        T user = (T) em.find(User.class, id);
+        T user = (T) entityManager.find(User.class, id);
         close();
 
         return user;
@@ -59,7 +59,7 @@ public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
     public void changeData(T user) {
         User changeUser = (User) user;
         init();
-        em.merge(changeUser);
+        entityManager.merge(changeUser);
         close();
     }
 
@@ -70,7 +70,7 @@ public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
 
         try {
             init();
-            TypedQuery<User> namedQuery = em.createNamedQuery(GET_USER_BY_EMAIL, User.class).setParameter("userEmail", userEmail);
+            TypedQuery<User> namedQuery = entityManager.createNamedQuery(GET_USER_BY_EMAIL, User.class).setParameter("userEmail", userEmail);
             user = namedQuery.getSingleResult();
             close();
         } catch (NoResultException e) {
@@ -86,7 +86,7 @@ public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
 
         try {
             init();
-            TypedQuery<User> namedQuery = em.createNamedQuery(GET_USER_BY_NAME, User.class).setParameter("userName", userName);
+            TypedQuery<User> namedQuery = entityManager.createNamedQuery(GET_USER_BY_NAME, User.class).setParameter("userName", userName);
             user = namedQuery.getSingleResult();
             close();
         } catch (NoResultException e) {
@@ -102,7 +102,7 @@ public class UserDAOImpl<T> extends AbstractJPADAO implements UserDAO<T> {
 
         try {
             init();
-            TypedQuery<User> namedQuery = em.createNamedQuery(GET_ALL_USERS, User.class);
+            TypedQuery<User> namedQuery = entityManager.createNamedQuery(GET_ALL_USERS, User.class);
             usersList = namedQuery.getResultList();
             close();
         } catch (NoResultException e) {

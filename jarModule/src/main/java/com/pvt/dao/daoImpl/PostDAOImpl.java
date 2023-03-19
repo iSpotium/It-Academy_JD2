@@ -33,15 +33,15 @@ public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
 
         Post addPost = (Post) post;
         init();
-        em.persist(addPost);
+        entityManager.persist(addPost);
         close();
     }
 
     @Override
     public void delete(long id) {
         init();
-        Post post = em.getReference(Post.class, id);
-        em.remove(post);
+        Post post = entityManager.getReference(Post.class, id);
+        entityManager.remove(post);
         close();
     }
 
@@ -49,7 +49,7 @@ public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
     public T get(long id) {
 
         init();
-        T post = (T) em.find(Post.class, id);
+        T post = (T) entityManager.find(Post.class, id);
         close();
 
         return post;
@@ -59,7 +59,7 @@ public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
     public void changeData(T post) {
 
         init();
-        em.merge(post);
+        entityManager.merge(post);
         close();
 
     }
@@ -70,7 +70,7 @@ public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
 
         try {
             init();
-            TypedQuery<Post> nq = em.createNamedQuery(GET_POST_BY_NAME, Post.class).setParameter("postName", postName);
+            TypedQuery<Post> nq = entityManager.createNamedQuery(GET_POST_BY_NAME, Post.class).setParameter("postName", postName);
             post = nq.getSingleResult();
             close();
         } catch (NoResultException e) {
@@ -87,7 +87,7 @@ public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
 
         try {
             init();
-            TypedQuery<Post> nq = em.createNamedQuery(GET_ALL_POSTS, Post.class);
+            TypedQuery<Post> nq = entityManager.createNamedQuery(GET_ALL_POSTS, Post.class);
             allPosts = nq.getResultList();
             close();
         } catch (NoResultException e){
@@ -104,7 +104,7 @@ public class PostDAOImpl<T> extends AbstractJPADAO implements PostDAO<T> {
 
         try {
             init();
-            TypedQuery<Post> nq = em.createNamedQuery(GET_POST_BY_USER_ID, Post.class).setParameter("userId", userId);
+            TypedQuery<Post> nq = entityManager.createNamedQuery(GET_POST_BY_USER_ID, Post.class).setParameter("userId", userId);
             allPosts = nq.getResultList();
             close();
         }catch (NoResultException e){

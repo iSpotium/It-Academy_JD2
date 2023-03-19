@@ -6,19 +6,19 @@ import jakarta.persistence.Persistence;
 
 public class AbstractJPADAO {
 
-    protected EntityManager em;
+    protected EntityManager entityManager;
 
     public void init(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("It-Academy_JD2");
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("It-Academy_JD2");
+        entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
     }
 
     public void close(){
-        if(em.getTransaction().isActive()){
-            em.getTransaction().commit();
+        if(entityManager.getTransaction().isActive()){
+            entityManager.getTransaction().commit();
         }
-        em.getEntityManagerFactory().close();
-        em.close();
+        entityManager.getEntityManagerFactory().close();
+        entityManager.close();
     }
 }
