@@ -14,12 +14,11 @@ import java.io.IOException;
 public class WelcomeServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        HttpSession session = request.getSession();
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/welcome.jsp");
         rd.forward(request, response);
     }
     public void doPost (HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
-        HttpSession session = request.getSession();
+
         RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/welcome.jsp");
         rd.forward(request, response);
     }

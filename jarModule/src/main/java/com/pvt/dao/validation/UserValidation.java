@@ -1,15 +1,16 @@
-package com.pvt.validation;
+package com.pvt.dao.validation;
 
-import com.pvt.daoException.LogDAOException;
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.Role;
-import com.pvt.entity.User;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.daoImpl.UserDAOImpl;
+import com.pvt.dao.daoInterface.UserDAO;
+import com.pvt.dao.entity.Role;
+import com.pvt.dao.entity.User;
 
 import java.sql.SQLException;
 
 public class UserValidation {
 
-    static UserDAOImpl userDAO = new UserDAOImpl();
+    static UserDAO<User> userDAO = UserDAOImpl.getInstance();
 
     public static boolean isHaveUserWithUserName(String userName) throws LogDAOException, SQLException {
         if (userDAO.getUserByName(userName) == null) {

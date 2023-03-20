@@ -1,8 +1,10 @@
 package com.pvt.userServlet;
 
-import com.pvt.daoImpl.UserDAOImpl;
-import com.pvt.entity.User;
-import com.pvt.validation.UserValidation;
+import com.pvt.dao.daoException.LogDAOException;
+import com.pvt.dao.entity.User;
+import com.pvt.dao.validation.UserValidation;
+import com.pvt.service.serviceInterface.UserService;
+import com.pvt.service.serviceImpl.UserServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +19,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "UpdatePasswordServlet", urlPatterns = {"/updatePassword"})
 public class UpdatePasswordServlet extends HttpServlet {
 
-    private static UserDAOImpl userDAO = new UserDAOImpl();
+    private final UserService<User> userService = UserServiceImpl.getInstance();
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,12 +37,16 @@ public class UpdatePasswordServlet extends HttpServlet {
         User linkUser;
         Long userIdToFind = (Long) session.getAttribute("loggedInUserId");
 
-        linkUser = userDAO.get(userIdToFind);
+        try {
+            linkUser = userService.get(userIdToFind);
+        } catch (LogDAOException e) {
+            throw new RuntimeException(e);
+        }
 
         if (UserValidation.isPasswordCorrect(newUserPassword)) {
             if (session != null) {
                 linkUser.setUserPassword(newUserPassword);
-                userDAO.changeData(linkUser);
+                userService.changeData(linkUser);
                 PrintWriter out = response.getWriter();
                 RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/welcome.jsp");
                 rd.include(request, response);

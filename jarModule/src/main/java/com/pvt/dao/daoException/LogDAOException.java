@@ -1,4 +1,4 @@
-package com.pvt.daoException;
+package com.pvt.dao.daoException;
 
 public class LogDAOException extends Exception {
 
